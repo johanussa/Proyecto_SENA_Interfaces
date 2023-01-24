@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head lang="es">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./asssets/Sena_logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./style.css" />
+    <title>Bienvenido</title>
+</head>
+<body class="welcomePage">
+    <section class="welcomeContent" id="sectionWelcome">
+        <div class="divHead">
+            <img src="./asssets/logoSANF2.png" alt="" class="logoWelcome">
+            SENA - SANF
+        </div>
+        <div class="divMain">
+            <h1>HOLA Y BIENVENIDO</h1>
+            <P>
+                Desde el grupo <b>SENA-SANF</b> le damos una calurosa bienvenida a nuestra aplicacion web
+                en donde podra de una manera eficaz, ordenada y sensilla, organizar, ver, editar y administrar el manejo de horarios. <br><br> Esta aplicacion va dirigida a instructores, funcionarios y aprendices <b>SENA</b> del Centro de Materiales y Ensayos del Complejo Sur situado en Bogotá.  
+            </P>
+        </div>
+        <button class="btnWelcome" onclick="logingPage()">INGRESAR</button>
+    </section>
+
+    <section class="loginContent" id="sectionLogin">
+        <div class="register" id="register">  
+            <div class="logo">
+                <img src="./asssets/logoSANF2.png" alt="" class="logoSanf">
+                <span>SENA - SANF</span>
+            </div>
+            <div class="createCount">
+                <h2>¿ No Tienes una Cuenta ?</h2>
+                <p>
+                    Registrate para poder acceder a todos nuestros servicios, y administra y 
+                    visualiza los horarios en un solo lugar. 
+                </p>
+                <div class="divBtn">
+                    <button>
+                        Registrate !! <i class="bi bi-caret-right-fill"></i>
+                    </button>
+                </div>
+                <div class="socialMedia">
+                    <a href=""><i class="bi bi-facebook"></i></a>                
+                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <a href=""><i class="bi bi-twitter"></i></a>               
+                    <a href=""><i class="bi bi-linkedin"></i></a>                
+                </div>
+            </div>
+        </div>
+
+        <div class="loginForm" id="loginForm">
+            <div class="header">
+                <img src="./asssets/Sena_logo.png" alt="" class="logoLogin">
+                <h2>Inicio de Sesion</h2>
+            </div>
+
+            <form action="" id="formulario">
+                <section class="form_group">
+                    <label for="tipo" class="form_label">Tipo de Documento</label>
+                    <div class="form_input" id="divSelect">
+                        <i class="bi bi-person-vcard-fill iconsLogin"></i>
+                        <select name="tipo" id="tipo" required>
+                            <option selected value="CC">Cédula de Ciudadania</option>
+                            <option value="TI">Tarjeta de Identidad</option>
+                            <option value="CE">Cédula de Extranjeria</option>
+                            <option value="PEP">PEP</option>
+                            <option value="PPT">Permiso Protección Temporal</option>
+                        </select>
+                    </div>
+                </section>
+
+                <section class="form_group" id="group_numDoc">
+                    <label for="numDoc" class="form_label">Número de Documento</label>
+                    <div class="form_input" id="divNum">   
+                        <i class="bi bi-person-circle iconsLogin"></i>
+                        <input type="text" id="numDoc" name="numDoc" placeholder="Ingrese El Número de Documento" autocomplete="off" required>
+                    </div>
+                    <p class="message_error">
+                        El Número No puede contener espacios ni caracteres especiales y debe contener minimo 8 caracteres
+                    </p>
+                </section>
+
+                <section class="form_group" id="group_pass">
+                    <label for="pass" class="form_label">Contraseña</label>
+                    <div class="form_input" id="divPass">
+                        <i class="bi bi-lock-fill iconsLogin"></i>
+                        <input type="password" name="pass" id="pass" placeholder="Ingrese la Contraseña" required>
+                        <i class="bi bi-eye-fill iconEye" id="viewPass"></i>
+                    </div>
+                    <p class="message_error">
+                        La Contraseña debe tener minimo 6 caracteres
+                    </p>
+                </section>
+
+                <section class="message_error" id="form_error">
+                    <p>
+                        <i class="bi bi-exclamation-diamond-fill iconsLogin"></i>
+                        <b>Error: </b> Información de Usuario Invalida
+                    </p>
+                </section> 
+
+                <section class="forget_pass">
+                    <a href="#" onclick="openModal(event)">
+                        <i class="bi bi-key-fill"></i>
+                        Olvidé mi Contraseña
+                    </a>
+                </section>
+
+                <section class="form_btn">
+                    <button type="submit" class="btn_submit">
+                        Ingresar !! <i class="bi bi-caret-right-fill"></i>
+                    </button>
+                </section>
+            </form>
+        </div>
+    </section>
+
+    <section class="modal">
+        <div class="contain_modal">
+            <article class="head_modal">
+                <div class="modal_title">
+                    <i class="bi bi-key-fill"></i>
+                    <h2>Restablecer la Contraseña</h2>                
+                </div>
+                <a class="modal_close" onclick="closeModal(event)">
+                    <i class="bi bi-x-lg"></i> 
+                </a>                
+            </article>
+            <article class="body_modal">
+                <p>Seleccione y escriba, el tipo y el número de su documento de Identidad</p>
+                <form action="" id="form_get_pass">
+                    <section id="group_type_doc">
+                        <label for="type_doc" class="form_label label_rec">Tipo de Documento de Identidad</label>
+                        <div class="form_input" id="select_tipe">
+                            <i class="bi bi-person-vcard-fill iconsLogin"></i>
+                            <select name="type_doc" id="type_doc" required>
+                                <option value="" selected disabled>Seleccionar . . .</option>
+                                <option value="CC">Cédula de Ciudadania</option>
+                                <option value="TI">Tarjeta de Identidad</option>
+                                <option value="CE">Cédula de Extranjeria</option>
+                                <option value="PEP">PEP</option>
+                                <option value="PPT">Permiso Protección Temporal</option>
+                            </select>
+                        </div>
+                    </section>
+                    
+                    <section id="group_numDocRec">
+                        <label for="numDocRec" class="form_label label_rec">Número de Documento</label>
+                        <div class="form_input" id="input_doc">   
+                            <i class="bi bi-person-circle iconsLogin"></i>
+                            <input type="text" name="numDocRec" id="numDocRec" placeholder="Ingrese El Número de Documento" autocomplete="off" required>
+                        </div>
+                        <p class="message_error">
+                            El Número No puede contener espacios ni caracteres especiales y debe contener minimo 8 caracteres
+                        </p>
+                    </section>
+
+                    <section class="message_error" id="form_error_rec">
+                        <p>
+                            <i class="bi bi-exclamation-diamond-fill iconsLogin"></i>
+                            <b>Error: </b> Información de No Invalida
+                        </p>
+                    </section> 
+
+                    <article class="footer_modal">
+                        <button type="button" class="btn_submit" onclick="closeModal(event)">
+                            Cancelar !! &nbsp;
+                        </button>
+                        <button type="submit" name="res_pass" class="btn_submit">
+                            Enviar !! &nbsp;
+                        </button>
+                    </article>
+                </form>
+            </article>
+        </div>
+    </section>
+    <script src="./script.js"></script>
+</body>
+</html>
