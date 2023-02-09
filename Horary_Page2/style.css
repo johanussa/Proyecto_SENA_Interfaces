@@ -5,6 +5,14 @@
 }
 :root {
     --border-color: #209bff;
+    --table-color: #88ce7a;
+    --color-one: #ff9b9b;
+    --color-two: #5ec4ff;
+    --color-three: #67d483;
+    --color-four: #e3e654;
+    --color-five: #8efff9;
+    --color-preparacion: #ffc89b;
+    --color-complement: #d29bff;
 }
 .container { 
     width: 100%; 
@@ -304,7 +312,9 @@ main.table_shedule table {
     margin: auto;
 }
 main.table_shedule table thead { height: 35px; }
-main.table_shedule table th { background-color: rgb(162, 214, 160); }
+main.table_shedule table th { 
+    background-color: var(--table-color);
+}
 main.table_shedule table thead th { min-width: 100px; }
 main.table_shedule table tr { height: 30px; }
 main.table_shedule .resume {
@@ -339,50 +349,19 @@ section.btns_table {
 
 /* Estilos Mostrar Horarios */
 
-section.body_shedule section.show_shedule {
-    padding: 0 40px;
-    text-align: center;
+section.dates_range,
+section.show_shedule > h2 {
+    grid-column: span 2;
 }
-section.show_shedule > h2 { margin: 20px 0 10px; }
 section.show_shedule section.dates_range {
     font-size: 25px;
     font-weight: 600;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     margin: 15px 0 25px;
     text-transform: capitalize;
 }
-section.show_shedule article.show_data {
-    display: flex;
-    justify-content: space-between;
-    flex-flow: row wrap;
-    margin: 5px;    
-}
-section.show_shedule article.show_data label,
-section.form_complementaria label { font-weight: 600; }
-section.show_shedule article.show_data2 label,
-section.form_complementaria label { vertical-align: top; }
-section.form_complementaria {
-    flex-direction: column;
-    align-content: flex-start;
-}
-section.form_complementaria h4 {
-    text-align: left;
-    margin: 5px 0;
-}
-section.form_complementaria aside { 
-    width: 100%; 
-    margin-bottom: 4px; 
-}
-section.form_complementaria textarea { width: 90.1%; }
-section.data_ficha,
-section.form_complementaria {
-    border-radius: 8px;
-    box-shadow: -3px 2px 5px 3px #00000070;
-    padding: 10px 20px;
-    margin: 10px 0;
-}
-section.show_shedule { display: none; }
+section.show_shedule > h2 { margin: 20px auto 10px; }
 i.icons_change_date {
     font-size: 2rem;
     cursor: pointer;
@@ -391,6 +370,7 @@ i.icons_change_date:hover { color: #00af00; }
 
 /* Estilos Actualizar Datos */
 
+section.show_shedule,
 section.update_info {
     padding-left: 30px;
     display: grid;
@@ -399,6 +379,7 @@ section.update_info {
     display: none;
     margin-bottom: 10px;
 }
+section.show_shedule form,
 section.update_info form {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -413,11 +394,14 @@ section.update_btns {
     text-align: center;
 }
 form.form_update_descrip > section { grid-column: span 4; }
+section.show_shedule form label,
 section.update_info form label {
     display: inline-block;
     font-weight: 600;
     padding: 5px 0; 
 }
+section.show_shedule form input,
+section.show_shedule form textarea,
 section.update_info form input,
 section.update_info form select,
 section.update_info form textarea {
@@ -427,17 +411,20 @@ section.update_info form textarea {
     border: 1px solid #00000050;
     border-radius: 6px;
 }
+section.show_shedule form input:focus,
+section.show_shedule form textarea:focus,
 section.update_info form input:focus,
 section.update_info form select:focus,
 section.update_info form textarea:focus {
     outline: none;
     border: 2px solid var(--border-color);
 }
+section.show_shedule form textarea,
 section.update_info form textarea {
     height: 60px;
     padding-top: 5px;
 }
-form.form_update_descrip section textarea { height: 100px; }
+form.form_update_descrip section textarea { height: 160px; }
 section.update_dates { 
     line-height: 40px;
     font-weight: 600;
@@ -458,7 +445,11 @@ span.btn_color:hover {
     cursor: pointer;
     box-shadow: 0px 0px 8px black;
 }
-
+section.show_shedule h3,
+section.update_info h3 {
+    grid-column: span 2; 
+    text-align: center;
+}
 
 
 
@@ -467,13 +458,13 @@ span.btn_color:hover {
 
 .table_shedule tbody td:hover {
     cursor: pointer;
-    background-color: #2eb82e;
+    background-color: #24bd24;
 }
-main.table_shedule .color_none { background-color: rgb(167, 167, 167); }
-main.table_shedule .color_one { background-color: rgb(255, 162, 162); }
-main.table_shedule .color_two { background-color: rgb(255, 222, 162); }
-main.table_shedule .color_three { background-color: rgb(207, 255, 162); }
-main.table_shedule .color_four { background-color: rgb(162, 255, 216); }
-main.table_shedule .color_five { background-color: rgb(162, 249, 255); }
-main.table_shedule .color_preparacion { background-color: rgb(226, 162, 255); }
-main.table_shedule .color_complement { background-color: rgb(162, 171, 255); }
+.color_none { background-color: rgb(167, 167, 167); }
+.color_one { background-color: var(--color-one); }
+.color_two { background-color: var(--color-two); }
+.color_three { background-color: var(--color-three); }
+.color_four { background-color: var(--color-four); }
+.color_five { background-color: var(--color-five); }
+.color_preparacion { background-color: var(--color-preparacion); }
+.color_complement { background-color: var(--color-complement); }
