@@ -22,7 +22,7 @@ const data = [
                     }
                 ],
                 Complementaria: false,
-                Horas: [{ pos: 5, color: 2 }, { pos: 6, color: 'p' }]
+                Horas: [{ pos: 5, color: 1 }, { pos: 6, color: 'p' }]
             },
             {
                 FechaInicio: '2023-02-02',
@@ -41,7 +41,7 @@ const data = [
                     }
                 ],
                 Complementaria: 'Formacion Complementaria',
-                Horas: [{ pos: 12, color: 1 }, { pos: 26, color: 'p' }]
+                Horas: [{ pos: 12, color: 1 }, { pos: 26, color: 'p' }, { pos: 16, color: 'c' }]
             },
             {
                 FechaInicio: '2023-04-03',
@@ -143,6 +143,7 @@ const table = document.getElementById('table_body');
 const selectPrograma = document.getElementById('Programa');
 const selectAmbiente = document.getElementById('Ambiente');
 const span = document.querySelectorAll('.show_hours span');
+const containBtns = document.querySelector('.btns_table');
 
 let countAsignacion = 1;
 let colorSelector = 0;
@@ -150,6 +151,8 @@ let cantHours = 0;
 let activeFicha = false;
 let flagPlaneacion = false;
 let flagComplement = false;
+let saveUpdate = false;
+let complement = false;
 let shedule = [];
 let dataFicha = [];
 let userSelected;
@@ -164,31 +167,36 @@ let Competencias;
 let Descripcion;
 let Num_Aprendices;
 let Ambiente;
-let complement = false;
 let length;
 let indexUser;
 
 const saveData = () => {
     if (!(cantHours - shedule.length)) {
-        btnContinue();
-        let objectData = {
-            FechaInicio : date_start.value,
-            FechaFin : date_end.value,
-            Ficha : dataFicha,
-            Complementaria: complement,
-            Horas: shedule
+        if (saveUpdate) {
+            data[indexUser].Horario[length].Horas = shedule;
+            saveUpdate = false;
+            containBtns.style.display = 'none';
+            alert('Horario Actalizado Correctamente!!'); 
+        } else {
+            btnContinue();
+            let objectData = {
+                FechaInicio : date_start.value,
+                FechaFin : date_end.value,
+                Ficha : dataFicha,
+                Complementaria: complement,
+                Horas: shedule
+            }
+            data[indexUser].Estado_Horario = true;
+            data[indexUser].Horario.push(objectData);
+            alert('Información Almacenada Correctamente!!');            
+            selectInstructor(userSelected.Identificacion);
         }
-        data[indexUser].Estado_Horario = true;
-        data[indexUser].Horario.push(objectData);
-        alert('Información Almacenada Correctamente!!');            
-        console.log(data); 
-        selectInstructor(userSelected.Identificacion);
     } else { alert('Aun No ha asignado las horas requeridas'); }    
 }
 const showInstructors = (array) => {
     document.querySelector('.div_instructors').innerHTML = '<p>INSTRUCTORES</p>';
     if (array.length) {
-        array.forEach(e => {
+        array.forEach((e, pos) => {
             const { Identificacion, Nombre, Apellido, Estado_Horario } = e;
             document.querySelector('.div_instructors').innerHTML += `
                 <section class="info_instructor" onclick="selectInstructor(${Identificacion})">
@@ -223,35 +231,6 @@ const eventClick = e => {
         updateHours();
     }
 }
-window.addEventListener('load', () => {
-    showInstructors(data);
-    programas.forEach(e => selectPrograma.innerHTML += `<option value="${e}">${e}</option>` );
-    aulas.forEach(e => { selectAmbiente.innerHTML += `<option value="${e}">${e}</option>` });
-    clearTable();    
-});
-
-search.addEventListener('input', e => {
-    const expReg = new RegExp(e.target.value, 'i');
-    const filter = data.filter(e => 
-        expReg.test(e.Identificacion) || expReg.test(`${e.Nombre} ${e.Apellido}`
-    ));
-    showInstructors(filter);
-});
-formulario.addEventListener('submit', e => {        
-    e.preventDefault();
-    document.querySelector('.btns_table').style.display = 'flex';
-    document.querySelector('.table_shedule').style.display = 'grid';
-    document.querySelector('.btns_actions').style.display = 'none';
-
-    document.querySelector('.table_shedule h2').innerHTML = `
-        Asignar Horario a la Ficha : ${e.target.Num_Ficha.value}`;
-    document.querySelector('.resume').innerHTML += `
-        <section>
-            <label for="">Ficha Número ${e.target.Num_Ficha.value} : </label>
-            <span class="color_${colors[colorSelector]}"></span>
-        </section>
-    `;
-});
 const changeInput = (e) => {
     let options = {
         Num_Ficha : () => Num_Ficha = e.target.value,
@@ -266,7 +245,35 @@ const changeInput = (e) => {
     }
     options[e.target.id]();
 }
-formulario.addEventListener('change', changeInput);
+
+window.addEventListener('load', () => {
+    showInstructors(data);
+    programas.forEach(e => selectPrograma.innerHTML += `<option value="${e}">${e}</option>`);
+    aulas.forEach(e => selectAmbiente.innerHTML += `<option value="${e}">${e}</option>`);
+    clearTable();    
+});
+search.addEventListener('input', e => {
+    const expReg = new RegExp(e.target.value, 'i');
+    const filter = data.filter(e => 
+        expReg.test(e.Identificacion) || expReg.test(`${e.Nombre} ${e.Apellido}`
+    ));
+    showInstructors(filter);
+});
+formulario.addEventListener('submit', e => {        
+    e.preventDefault();
+    containBtns.style.display = 'flex';
+    document.querySelector('.table_shedule').style.display = 'grid';
+    document.querySelector('.btns_actions').style.display = 'none';
+
+    document.querySelector('.table_shedule h2').innerHTML = `
+        Asignar Horario a la Ficha : ${e.target.Num_Ficha.value}`;
+    document.querySelector('.resume').innerHTML += `
+        <section>
+            <label for="">Ficha Número ${e.target.Num_Ficha.value} : </label>
+            <span class="color_${colors[colorSelector]}"></span>
+        </section>
+    `;
+});
 formComplem.addEventListener('submit', e => {
     e.preventDefault();
     document.querySelector('.btns_form_comple').style.display = 'none';
@@ -283,6 +290,7 @@ formComplem.addEventListener('submit', e => {
     }
 });
 formComplem.addEventListener('change', e => complement = e.target.value );
+formulario.addEventListener('change', changeInput);
 
 function clearTable() {
     table.innerHTML = '';
@@ -310,15 +318,15 @@ function updateHours() {
     span[2].innerHTML = `${cantHours - shedule.length}`;
 }
 function btnContinue() {
+    const resume = document.querySelector('.resume');
     formulario.reset(); 
     formulario.style.display = 'none';
 
     document.querySelector('.table_shedule h2').innerHTML = `Horario Asignado :`;  
-    document.querySelector('.resume').style.display = 'grid';
+    resume.style.display = 'grid';
     document.querySelector('.btn_add_ficha').style.display = 'flex';
     document.querySelector('.form_complem').style.display = 'none';
 
-    const resume = document.querySelector('.resume');
     if (!shedule.some(e => e.color === colorSelector)) {
         resume.removeChild(resume.lastElementChild);
         if (flagPlaneacion) flagPlaneacion = false;
@@ -326,8 +334,7 @@ function btnContinue() {
         if (colorSelector === 'c') complement = false;
         activeFicha = false;
         colorSelector--;
-    }
-        
+    }        
     if (activeFicha && !dataFicha.some(e => e.Num_Ficha === Num_Ficha)) {
         dataFicha.push({
             Num_Ficha,
@@ -364,8 +371,8 @@ function btnFilter() {
     options[countAsignacion]();
 }
 function selectInstructor(id) {
-    userSelected = data.find(e => e.Identificacion === id);
-    indexUser = data.findIndex(e => e.Identificacion === userSelected.Identificacion);
+    indexUser = data.findIndex(e => e.Identificacion === id);
+    userSelected = JSON.parse(JSON.stringify(data[indexUser]));
     showInstructors(new Array(userSelected));
     formComplem.reset();
     formulario.reset();
@@ -377,11 +384,13 @@ function selectInstructor(id) {
     activeFicha = false;
     flagPlaneacion = false;
     flagComplement = false;
+    saveUpdate = false;
     length = userSelected.Horario.length - 1;
 
     const { Nombre, Apellido } = userSelected;       
     document.getElementById('name_user').innerHTML = `${Nombre} ${Apellido}`;
 
+    containBtns.firstElementChild.style.display = 'block';
     document.querySelector('.name_instructor').style.display = 'block';
     document.querySelector('.btns_options').style.display = 'flex';
     document.querySelector('.show_hours').style.display = 'none';
@@ -427,7 +436,7 @@ function btnsAction(btn) {
             colorSelector = 'p';
             
             document.querySelector('.table_shedule').style.display = 'grid';
-            document.querySelector('.btns_table').style.display = 'flex';
+            containBtns.style.display = 'flex';
             document.querySelector('.resume').style.display = 'grid';
             if (!flagPlaneacion) {                
                 document.querySelector('.resume').innerHTML += `
@@ -444,7 +453,7 @@ function btnsAction(btn) {
             colorSelector = 'c';
             formComplem.reset();
             document.querySelector('.resume').style.display = 'grid';
-            document.querySelector('.btns_table').style.display = 'flex';
+            containBtns.style.display = 'flex';
             document.querySelector('.form_complem').style.display = 'block';
             document.querySelector('.btns_form_comple').style.display = 'block';
             document.querySelector('.table_shedule').style.display = 'none';
@@ -485,60 +494,77 @@ function validateDate() {
     } else return true;
 }
 function formatDate(date) {
+    date = date.replaceAll('-', '/');
     date = new Date(date);
     return Intl.DateTimeFormat('CO', {dateStyle: 'full'}).format(date);
 }
 function viewShedule() {
-    document.querySelector('section.show_shedule').style.display = 'block';
+    const showShedule = document.querySelector('section.show_shedule');
+    const dataShedule = userSelected.Horario;    
+    showShedule.style.display = 'grid';
+    containBtns.style.display = 'none';
+
     document.querySelector('.btns_options').style.display = 'none';
-    document.querySelector('.btns_table').style.display = 'none';
     document.querySelector('.table_shedule h2').innerHTML = `Horario Asignado :`;
     document.querySelector('.resume').innerHTML = '';
     clearTable();
 
-    const showShedule = document.querySelector('section.show_shedule');
-    const dataShedule = userSelected.Horario;
-
     if (dataShedule.length) {
+        const element = dataShedule[length];
         document.querySelector('.table_shedule').style.display = 'grid';
         document.querySelector('.resume').style.display = 'grid';
         showShedule.innerHTML = '<h2>HORARIOS</h2>';
 
-        const element = dataShedule[length];
         showShedule.innerHTML += `
             <section class="dates_range">
                 <i onclick="changeData(0)" class="bi bi-caret-left-fill icons_change_date"></i>
                 <span>${formatDate(element.FechaInicio)}</span> A
                 <span>${formatDate(element.FechaFin)}</span>
                 <i onclick="changeData(1)" class="bi bi-caret-right-fill icons_change_date"></i>
-            </section>`;
-
+            </section>
+        `;
         if (element.Ficha.length) {
             element.Ficha.forEach((e, pos) => {
                 showShedule.innerHTML += `
-                <section class="data_ficha">
-                    <article class="show_data">
-                        <aside><label>Fícha Número : </label><span>${e.Num_Ficha}</span></aside>
-                        <aside><label>Ruta : </label><span>${e.Num_Ruta}</span></aside>
-                        <aside><label>Trimestre : </label><span>${e.Trimestre}</span> </aside>
-                        <aside><label>Número de Aprendices : </label><span>${e.Num_Aprendices}</span></aside>
-                    </article>
-        
-                    <article class="show_data">
-                        <aside><label>Programa : </label><span>${e.Programa}</span></aside>
-                        <aside><label>Código : </label><span>${e.Codigo}</span></aside>
-                        <aside><label>Ambiente : </label><span>${e.Ambiente}</span></aside>                            
-                    </article>
-        
-                    <article class="show_data show_data2">
-                        <aside><label>Competencias : </label>
-                            <textarea cols="56" rows="5" disabled>${e.Competencias}</textarea>
-                        </aside>
-                        <aside><label>Descripción : </label>
-                            <textarea cols="56" rows="5" disabled>${e.Descripcion}</textarea>
-                        </aside>
-                    </article>
-                </section>`;
+                    <form class="color_${colors[pos + 1]}">
+                        <section>
+                            <label>Número de Ficha:</label>
+                            <input type="text" placeholder="${e.Num_Ficha}" disabled>
+                        </section>
+                        <section>
+                            <label>Número de Ruta:</label>
+                            <input type="text" placeholder="${e.Num_Ruta}" disabled>
+                        </section>
+                        <section>
+                            <label>Trimestre:</label>
+                            <input type="text" placeholder="${e.Trimestre}" disabled>
+                        </section>    
+                        <section>
+                            <label>Codigo Programa:</label>
+                            <input type="text" placeholder="${e.Codigo}" disabled>
+                        </section>    
+                        <section class="programa_forma">
+                            <label>Programa de Formación:</label>
+                            <input type="text" placeholder="${e.Programa}" disabled>
+                        </section>    
+                        <section>
+                            <label>Núm. Aprendices:</label>
+                            <input type="text" placeholder="${e.Num_Aprendices}" disabled>
+                        </section>
+                        <section>
+                            <label>Núm. Ambiente:</label>
+                            <input type="text" placeholder="${e.Ambiente}" disabled>
+                        </section>    
+                        <section class="sect_competencia">
+                            <label>Competencias:</label>
+                            <textarea disabled>${e.Competencias}</textarea>
+                        </section>    
+                        <section class="sect_descrip">
+                            <label>Descripción:</label>
+                            <textarea disabled>${e.Descripcion}</textarea>
+                        </section>
+                    </form>
+                `;
                 document.querySelector('.resume').innerHTML += `
                     <section>
                         <label>Ficha Número ${e.Num_Ficha} : </label>
@@ -549,12 +575,12 @@ function viewShedule() {
         }
         if (element.Complementaria) {
             showShedule.innerHTML += `
-                <section class="form_complementaria">
-                    <h4>Formación Complementaria</h4>
-                    <aside><label>Descripción :</label>
-                        <textarea rows="5" disabled>${element.Complementaria}</textarea>
-                    </aside>
-                </section>
+                <form class="form_update_descrip color_${colors['c']}">
+                    <section>
+                        <label for="update_comple">Descripción Formación Complementaria :</label>
+                        <textarea disabled>${element.Complementaria}</textarea>
+                    </section>
+                </form>
             `;
             document.querySelector('.resume').innerHTML += `
                 <section>
@@ -593,17 +619,22 @@ function changeData(action) {
     }
 }
 function updateShedule() {
+    const container = document.querySelector('section.update_info');
+    containBtns.style.display = 'none';
     document.querySelector('.btns_options').style.display = 'none';
-    document.querySelector('section.update_info').style.display = 'grid';
+    container.style.display = 'grid';
     clearTable();
 
-    const container = document.querySelector('section.update_info');
     if (userSelected.Horario.length) {
         document.querySelector('.table_shedule h2').innerHTML = `Horario Asignado :`;
         document.querySelector('.resume').innerHTML = '';
         document.querySelector('.resume').style.display = 'grid';
         document.querySelector('.table_shedule').style.display = 'grid';
-        const user = userSelected.Horario[length];
+        document.querySelector('.show_hours').style.display = 'block';
+        cantHours = userSelected.Horario[length].Horas.length;
+        shedule = userSelected.Horario[length].Horas.map(e => e);
+        updateHours();
+        const user = JSON.parse(JSON.stringify(data[indexUser].Horario[length]));
         container.innerHTML = '';
 
         container.innerHTML += `
@@ -661,7 +692,7 @@ function updateShedule() {
                         </section>    
                         <section class="programa_forma">
                             <label for="Programa">Programa de Formación:</label>
-                            <select name="Programa" id="Programa" onchange="updateData(event)">
+                            <select name="Select_Programa" id="Programa" onchange="updateData(event)">
                                 <option selected disabled value="">${e.Programa}</option>
                             </select>
                         </section>    
@@ -672,7 +703,7 @@ function updateShedule() {
                         </section>
                         <section>
                             <label for="Ambiente">Núm. Ambiente:</label>
-                            <select name="Ambiente" id="Ambiente" onchange="updateData(event)">
+                            <select name="Select_Ambiente" id="Ambiente" onchange="updateData(event)">
                                 <option selected disabled value="">${e.Ambiente}</option>
                             </select>
                         </section>    
@@ -698,79 +729,79 @@ function updateShedule() {
                     </section>
                 `; 
             });
-            if (user.Complementaria) {
-                container.innerHTML += `
-                    <form class="form_update_descrip">
-                        <section>
-                            <label for="update_comple">Descripción Formación Complementaria :</label>
-                            <textarea id="update_comple" onchange="updateData(event)">${user.Complementaria}</textarea>
-                        </section>
-                        <section class="update_btns">
-                            <button type="button" onclick="updateData(2, ${length})">Guardar</button>
-                        </section>
-                    </form>
-                `;
-                document.querySelector('.resume').innerHTML += `
-                    <section>
-                        <label>Formación Complementaria :</label>
-                        <span class="color_${colors['c']} btn_color" onclick="changeShedule('c')"></span>
-                    </section>
-                `;
-            }
-            let td = document.querySelectorAll('td');
-            user.Horas.forEach(e => td[e.pos].classList.toggle(`color_${colors[e.color]}`) );
-            if (user.Horas.some(e => e.color === 'p')) {
-                document.querySelector('.resume').innerHTML += `
-                    <section>
-                        <label for="">Preparación Formación :</label>
-                        <span class="color_${colors['p']} btn_color" onclick="changeShedule('p')"></span>
-                    </section>
-                `;
-            }
         }
+        if (user.Complementaria) {
+            container.innerHTML += `
+                <form class="form_update_descrip">
+                    <section>
+                        <label for="update_comple">Descripción Formación Complementaria :</label>
+                        <textarea id="update_comple" onchange="updateData(event)">${user.Complementaria}</textarea>
+                    </section>
+                    <section class="update_btns">
+                        <button type="button" onclick="updateData(2, ${length})">Guardar</button>
+                    </section>
+                </form>
+            `;
+            document.querySelector('.resume').innerHTML += `
+                <section>
+                    <label>Formación Complementaria :</label>
+                    <span class="color_${colors['c']} btn_color" onclick="changeShedule('c')"></span>
+                </section>
+            `;
+        }
+        let td = document.querySelectorAll('td');
+        user.Horas.forEach(e => td[e.pos].classList.toggle(`color_${colors[e.color]}`) );
+        if (user.Horas.some(e => e.color === 'p')) {
+            document.querySelector('.resume').innerHTML += `
+                <section>
+                    <label for="">Preparación Formación :</label>
+                    <span class="color_${colors['p']} btn_color" onclick="changeShedule('p')"></span>
+                </section>
+            `;
+        }
+        const nodesProgram = document.getElementsByName('Select_Programa');
+        const nodesAmb = document.getElementsByName('Select_Ambiente');
+        nodesProgram.forEach(node => programas.forEach(e => node.innerHTML += `<option value="${e}">${e}</option>`));
+        nodesAmb.forEach(node => aulas.forEach(e => node.innerHTML += `<option value="${e}">${e}</option>`));
     } else {
         container.innerHTML = `
-            <br><br><h3 style="grid-column: span 2; text-align: center;">
+            <br><br><h3>
                 El Instructor ${userSelected.Apellido} Aun No tiene Horarios Asignados
             </h3>
         `;
     }
 }
 function updateData(e, pos = 0) {
+    const elem = userSelected.Horario[length];
     if (e === 1) {
-        const elem = userSelected.Horario[length].Ficha[pos];
         dataFicha = {
-            Num_Ficha : Num_Ficha || elem.Num_Ficha,
-            Num_Ruta : Num_Ruta || elem.Num_Ruta,
-            Trimestre : Trimestre || elem.Trimestre,
-            Programa : Programa || elem.Programa,
-            Codigo : Codigo || elem.Codigo,
-            Competencias : Competencias || elem.Competencias,
-            Descripcion : Descripcion || elem.Descripcion,
-            Num_Aprendices : Num_Aprendices || elem.Num_Aprendices,
-            Ambiente : Ambiente || elem.Ambiente
+            Num_Ficha : Num_Ficha || elem.Ficha[pos].Num_Ficha,
+            Num_Ruta : Num_Ruta || elem.Ficha[pos].Num_Ruta,
+            Trimestre : Trimestre || elem.Ficha[pos].Trimestre,
+            Programa : Programa || elem.Ficha[pos].Programa,
+            Codigo : Codigo || elem.Ficha[pos].Codigo,
+            Competencias : Competencias || elem.Ficha[pos].Competencias,
+            Descripcion : Descripcion || elem.Ficha[pos].Descripcion,
+            Num_Aprendices : Num_Aprendices || elem.Ficha[pos].Num_Aprendices,
+            Ambiente : Ambiente || elem.Ficha[pos].Ambiente
         };
         data[indexUser].Horario[length].Ficha.splice(pos, 1, dataFicha);
-        // let objectData = {
-        //     FechaInicio : date_start || elem.FechaInicio,
-        //     FechaFin : date_end || elem.FechaFin,
-        //     Ficha : dataFicha || elem.Ficha,
-        //     Complementaria: complement || elem.complement,
-        //     Horas: shedule || elem.Horas
-        // }
-        // data.splice(indexUser, 1, objectData);
-        // data[indexUser].Horario.push(objectData);
         alert('Información Actualizada Correctamente!!');  
         updateShedule();
     } else if (e === 2) {
-        const elem = userSelected.Horario[length].Complementaria;
         data[indexUser].Horario[pos].Complementaria = complement || elem.Complementaria;
         alert('Información Actualizada Correctamente!!'); 
         updateShedule();
     } else {
         let options = {
-            update_start : () => date_start = e.target.value,
-            update_end : () => date_end = e.target.value,
+            update_start : () => {
+                data[indexUser].Horario[length].FechaInicio = e.target.value;
+                updateShedule();
+            }, 
+            update_end : () => {
+                data[indexUser].Horario[length].FechaFin = e.target.value;
+                updateShedule();
+            }, 
             update_comple : () => complement = e.target.value
         }
         if (options[e.target.id]) return options[e.target.id]();
@@ -778,8 +809,9 @@ function updateData(e, pos = 0) {
     }
 }
 function changeShedule(color) {
-    colorSelector = color;
-    cantHours = userSelected.Horario[length].Horas.length;
-    updateHours();
+    containBtns.firstElementChild.style.display = 'none';
+    containBtns.style.display = 'flex';
+    saveUpdate = true;
+    colorSelector = color;    
     table.addEventListener('click', eventClick);
 }
