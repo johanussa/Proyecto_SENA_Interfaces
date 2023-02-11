@@ -6,7 +6,7 @@ const viewPass = document.getElementById('viewPass');
 const expresiones = {
     numDoc : /^[a-zA-Z0-9]{8,16}$/,
     numDocRec : /^[a-zA-Z0-9]{8,16}$/,
-    pass : /^.{6,40}$/
+    pass : /^.{8,20}$/
 }
 const focusIn = (e) => {
     if (e.target.parentNode.id) {

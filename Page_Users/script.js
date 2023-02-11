@@ -1,15 +1,13 @@
-const search = document.getElementById('search');
-const rolBtn = document.getElementById('rol');
-const stateBtn = document.getElementById('estado');
+const search = document.getElementById('search'),
+    rolBtn = document.getElementById('rol'),
+    stateBtn = document.getElementById('estado');
 
-let rol = 1;
-let state = 1;
-let rolData = [];
-let stateData = [];
+let rol = 1, state = 1;
+let rolData = [], stateData = [];
 
 const data = [
     {
-        Id: '6897645',
+        Id: '6897605',
         Nombre: 'Johan Sebastian',
         Apellido: 'Ussa Rubio',
         Email: 'johanu@misena.com',
@@ -21,7 +19,7 @@ const data = [
         Nombre: 'Jhon Alexander',
         Apellido: 'Umbasia Ussa',
         Email: 'jhon12@misena.com',
-        Rol: 'Aprendiz',
+        Rol: 'Instructor',
         Estado: 'Inactivo'
     },
     {
@@ -33,47 +31,47 @@ const data = [
         Estado: 'Activo'
     },{
         Id: '1234560',
-        Nombre: 'Johan Sebastian',
-        Apellido: 'Ussa Rubio',
+        Nombre: 'Matias Fernandez',
+        Apellido: 'Zapata',
         Email: 'johanu@misena.com',
         Rol: 'Administrador',
         Estado: 'Activo'
     },
     {
         Id: '8901233',
-        Nombre: 'Jhon Alexander',
-        Apellido: 'Umbasia Ussa',
+        Nombre: 'Samuel Emilio',
+        Apellido: 'Torres Diaz',
         Email: 'jhon12@misena.com',
-        Rol: 'Aprendiz',
+        Rol: 'Instructor',
         Estado: 'Inactivo'
     },
     {
         Id: '5678911',
-        Nombre: 'Maria Mercedes',
-        Apellido: 'Rubio Rincon',
+        Nombre: 'Angelica',
+        Apellido: 'Timberlake',
         Email: 'maria_rubio@misena.com',
         Rol: 'Funcionario',
         Estado: 'Inactivo'
     },{
         Id: '1236567',
-        Nombre: 'Johan Sebastian',
-        Apellido: 'Ussa Rubio',
+        Nombre: 'Santiago',
+        Apellido: 'Pulido Gonzalez',
         Email: 'johanu@misena.com',
-        Rol: 'Aprendiz',
+        Rol: 'Instructor',
         Estado: 'Inactivo'
     },
     {
         Id: '8901394',
-        Nombre: 'Jhon Alexander',
-        Apellido: 'Umbasia Ussa',
+        Nombre: 'Ricardo Manuel',
+        Apellido: 'Cifuentes',
         Email: 'jhon12@misena.com',
         Rol: 'Administrador',
         Estado: 'Activo'
     },
     {
         Id: '5671412',
-        Nombre: 'Maria Mercedes',
-        Apellido: 'Rubio Rincon',
+        Nombre: 'Nicol Dayana',
+        Apellido: 'Rojas Perez',
         Email: 'maria_rubio@misena.com',
         Rol: 'Funcionario',
         Estado: 'Inactivo'
@@ -113,7 +111,6 @@ const addData = (arrayData) => {
     });
 }
 window.addEventListener('load', addData(data));
-
 search.addEventListener('input', e => {
     let dataSearch = 0;
     const regExp = new RegExp(e.target.value, 'i');
@@ -133,7 +130,10 @@ search.addEventListener('input', e => {
     } else { document.getElementById('data_not_found').classList.remove('not_found'); }
     addData(dataSearch);  
 });
-
+search.addEventListener('focus', e => {
+    search.style.boxShadow = '0px 0px 10px 3px green';
+    setTimeout(() => { search.style.boxShadow = 'none'; }, 300)
+});
 function changeState(id, action) {
     let pos = data.findIndex(e => e.Id == id);
     data[pos].Estado = action ? 'Activo' : 'Inactivo';  
@@ -142,15 +142,14 @@ function changeState(id, action) {
     else if (stateData.length) { addData(stateData); }
     else { addData(data); }
 } 
-function selectFilter(typeFilter) {
-    
+function selectFilter(typeFilter) {    
     if (typeFilter) {        
         const options = {
             1: () => {
                 filterData('Administrador', 1);
                 rolBtn.classList.add('active_filter');
             },
-            2: () => filterData('Aprendiz', 1),
+            2: () => filterData('Instructor', 1),
             3: () => filterData('Funcionario', 1),
             4: () => { 
                 rol = 1; 
@@ -178,7 +177,6 @@ function selectFilter(typeFilter) {
     }
 }
 function filterData(text, type) {
-
     if (type) {
         rol++;
         if (stateData.length) rolData = stateData.filter(e => e.Rol === text);

@@ -12,8 +12,7 @@
 <body class="welcomePage">
     <section class="welcomeContent" id="sectionWelcome">
         <div class="divHead">
-            <img src="./asssets/logoSANF2.png" alt="" class="logoWelcome">
-            SENA - SANF
+            <img src="./asssets/logoSANF2.png" alt="" class="logoWelcome"> SENA - SANF
         </div>
         <div class="divMain">
             <h1>HOLA Y BIENVENIDO</h1>
@@ -38,9 +37,7 @@
                     visualiza los horarios en un solo lugar. 
                 </p>
                 <div class="divBtn">
-                    <button>
-                        Registrate !! <i class="bi bi-caret-right-fill"></i>
-                    </button>
+                    <button>Registrate !! <i class="bi bi-caret-right-fill"></i></button>
                 </div>
                 <div class="socialMedia">
                     <a href=""><i class="bi bi-facebook"></i></a>                
@@ -76,7 +73,10 @@
                     <label for="numDoc" class="form_label">Número de Documento</label>
                     <div class="form_input" id="divNum">   
                         <i class="bi bi-person-circle iconsLogin"></i>
-                        <input type="text" id="numDoc" name="numDoc" placeholder="Ingrese El Número de Documento" autocomplete="off" required>
+                        <input 
+                            type="text" id="numDoc" name="numDoc" autocomplete="off"  
+                            placeholder="Ingrese El Número de Documento" required
+                        >
                     </div>
                     <p class="message_error">
                         El Número No puede contener espacios ni caracteres especiales y debe contener minimo 8 caracteres
@@ -90,9 +90,7 @@
                         <input type="password" name="pass" id="pass" placeholder="Ingrese la Contraseña" required>
                         <i class="bi bi-eye-fill iconEye" id="viewPass"></i>
                     </div>
-                    <p class="message_error">
-                        La Contraseña debe tener minimo 6 caracteres
-                    </p>
+                    <p class="message_error">La Contraseña debe tener minimo 8 caracteres</p>
                 </section>
 
                 <section class="message_error" id="form_error">
@@ -104,8 +102,7 @@
 
                 <section class="forget_pass">
                     <a href="#" onclick="openModal(event)">
-                        <i class="bi bi-key-fill"></i>
-                        Olvidé mi Contraseña
+                        <i class="bi bi-key-fill"></i> Olvidé mi Contraseña
                     </a>
                 </section>
 
@@ -151,7 +148,10 @@
                         <label for="numDocRec" class="form_label label_rec">Número de Documento</label>
                         <div class="form_input" id="input_doc">   
                             <i class="bi bi-person-circle iconsLogin"></i>
-                            <input type="text" name="numDocRec" id="numDocRec" placeholder="Ingrese El Número de Documento" autocomplete="off" required>
+                            <input 
+                                type="text" name="numDocRec" id="numDocRec" autocomplete="off"
+                                placeholder="Ingrese El Número de Documento" required
+                            >
                         </div>
                         <p class="message_error">
                             El Número No puede contener espacios ni caracteres especiales y debe contener minimo 8 caracteres

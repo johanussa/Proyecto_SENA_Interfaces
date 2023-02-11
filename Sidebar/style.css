@@ -120,14 +120,17 @@ body {
     color: var(--text-color);
     transition: all .2s;
 }
-.header_text { white-space: nowrap; }
-.header_text .sanf { margin-left: 20px; }
+.header_text { 
+    white-space: nowrap; 
+    margin-top: 15px;
+}
 .header_text .name { 
-    font-size: 20px;
-    font-weight: 700; 
+    font-size: 12px;
+    font-weight: 600; 
 }
 .header_text .logo { 
     width: 60px; 
+    padding: 0 10px;
     vertical-align: middle; 
 }
 .img_text .image img { 
@@ -177,7 +180,7 @@ body {
     height: auto;
     min-height: 50px;
 }
-.sidebar .nav_link .hour { font-size: 20px; }
+.sidebar .nav_link .hour { font-size: 18px; }
 .footer_text .rol { font-size: 12px; }
 .foot_content .leave { margin-top: 5px; }
 .middle .date { line-height: 19px; }

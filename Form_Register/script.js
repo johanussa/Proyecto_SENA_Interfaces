@@ -5,7 +5,7 @@ const expresiones = {
     lastName: /^[a-zA-ZÁ-ÿ\s]{3,40}$/, // Letras, espacios, acentos
     numDoc: /^[a-zA-Z0-9]{8,20}$/,
     email: /^\w+\@(misena|soy\.sena)\.edu\.co$/, 
-    password: /^.{6,20}$/     // 6 a 20 caracteres
+    password: /^.{8,20}$/     // 8 a 20 caracteres
 }
 const states = {
     name: false,

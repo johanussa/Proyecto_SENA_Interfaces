@@ -25,7 +25,7 @@
         </header>
         <hr>
         <main class="main_shedule">
-            <section>
+            <section class="side_left">
                 <section class="div_instructors"></section>
                 <aside class="show_hours">
                     <p>Total Horas</p>
@@ -47,21 +47,28 @@
                         >
                     </article>
                     <article>
-                        <button onclick="btnFilter()">Horarios Asignados / Sin Asignar</button>
+                        <button onclick="btnFilter()">
+                            Horarios Asignados / Sin Asignar / Todos
+                        </button>
                     </article>
+                </section>
+
+                <section class="name_instructor">
+                    <h3 id="name_user">Johan Sebastian Ussa Rubio</h3>
+                    <span>Instructor</span>
                 </section>
 
                 <section class="btns_options">
                     <h2>¿ Que desea Hacer ?</h2>
                     <article>
-                        <button>Ver Horarios</button>
+                        <button onclick="viewShedule()">Ver Horarios</button>
                         <button onclick="createShedule()">Crear Horarios</button>
-                        <button>Modificar Horario</button>
+                        <button onclick="updateShedule()">Modificar Horario</button>
                     </article>
                 </section>
 
                 <section class="type_contrato">
-                    <h2>Seleccione el tipo de contrato del instructor</h2>
+                    <h2>Seleccione el Tipo de Contrato del Instructor</h2>
                     <article>
                         <button onclick="typeContrato(42)">Planta</button>
                         <button onclick="typeContrato(40)">Contratista</button>
@@ -69,37 +76,29 @@
                 </section>
 
                 <section class="create_shedule">
-                    <header>
-                        <h2>Crear Horarios</h2>
-                        <h3 id="name_user">Johan Sebastian Ussa Rubio</h3>
-                        <span>Instructor</span>
-                    </header>
+                    <h2>Crear Horarios</h2>
                     <article class="dates">
                         <div>
                             <label for="date_start">Fecha de Inicio:</label>
-                            <input type="date" name="date_start" id="date_start">
+                            <input type="date" class="input_date" name="date_start" id="date_start">
                         </div>
                         <div>
                             <label for="date_end">Fecha Fin:</label>
-                            <input type="date" name="date_end" id="date_end">
+                            <input type="date" class="input_date" name="date_end" id="date_end">
                         </div>
-                    </article>
+                    </article>  
 
                     <article class="btn_add_ficha">
-                        <div>                            
-                            <button onclick="addAction()">
-                                <span>+</span>Agregar Ficha
-                            </button>
+                        <div>
+                            <button onclick="btnsAction(1)"><span>+</span>Agregar Ficha</button>
                         </div>
                         <div>                            
-                            <button>
-                                <span>+</span>Preparación de Acciones de Formación
+                            <button onclick="btnsAction(2)"><span>+</span>
+                                Preparación de Acciones de Formación
                             </button>
                         </div>
                         <div>
-                            <button>
-                                <span>+</span>Formación Complementaria
-                            </button>
+                            <button onclick="btnsAction(3)"><span>+</span>Formación Complementaria</button>
                         </div>
                     </article>
                 </section>
@@ -110,10 +109,9 @@
                             <label for="Num_Ficha">Número de Ficha:</label>
                             <input type="number" name="Num_Ficha" id="Num_Ficha" placeholder="2557679" required>
                         </section>
-
                         <section>
                             <label for="Num_Ruta">Número de Ruta:</label>
-                            <select name="Num_Ruta" id="Num_Ruta" >
+                            <select name="Num_Ruta" id="Num_Ruta" required>
                                 <option disabled selected value="">Seleccione . . .</option>
                                 <option value="Grupo 1">Grupo 1</option>
                                 <option value="Grupo 2">Grupo 2</option>
@@ -123,63 +121,72 @@
                                 <option value="Grupo 6">Grupo 6</option>
                             </select>
                         </section>
-
                         <section>
                             <label for="Trimestre">Trimestre:</label>
-                            <select name="Trimestre" id="Trimestre" >
+                            <select name="Trimestre" id="Trimestre" required>
                                 <option selected disabled value="">Seleccione . . .</option>
                                 <option value="1 de 3">1 de 3</option>
                                 <option value="2 de 3">2 de 3</option>
                                 <option value="3 de 3">3 de 3</option>
                             </select>
                         </section>
-
                         <section>
                             <label for="Programa">Programa de Formación:</label>
-                            <select name="Programa" id="Programa" ></select>
+                            <select name="Programa" id="Programa" aria-placeholder="" required>
+                                <option selected disabled value="">Seleccione . . .</option>
+                            </select>
                         </section>
-
                         <section>
                             <label for="Codigo">Codigo de Programa:</label>
-                            <input type="text" name="Codigo" id="Codigo" placeholder="233104 V.1" >
+                            <input type="text" name="Codigo" id="Codigo" placeholder="233104 V.1">
                         </section>
-
                         <section class="div_competencia">
                             <label for="Competencias">Competencias:</label>
-                            <textarea name="competencias" id="Competencias" cols="35" rows="9"></textarea>
+                            <textarea name="competencias" id="Competencias" rows="9"></textarea>
                         </section>
-
                         <section>
                             <label for="Descripcion">Descripción:</label>
-                            <textarea name="descripcion" id="Descripcion" cols="35" rows="5"></textarea>
+                            <textarea name="descripcion" id="Descripcion" rows="5"></textarea>
                         </section>
-
                         <section>
                             <div>
                                 <label for="Num_Aprendices">Número de Aprendices:</label>
-                                <input type="number" name="Num_Aprendices" id="Num_Aprendices" placeholder="25">
+                                <input type="number" id="Num_Aprendices" placeholder="25" min="10" max="40">
                             </div>
                             <div>
                                 <label for="Ambiente">Número de Ambiente:</label>
-                                <select name="Ambiente" id="Ambiente" >
+                                <select name="Ambiente" id="Ambiente" required>
                                     <option selected disabled value="">Seleccione . . .</option>
-                                    <option value="203">203</option>
                                 </select>
                             </div>
                         </section>
-
                         <section class="btns_actions">
-                            <button type="button">Cancelar</button>
+                            <button type="button" onclick="btnsAction(4)">Cancelar</button>
                             <button type="reset">Resetear</button>
                             <button type="submit">Continuar</button>
                         </section>
                     </form>
                 </article>
 
+                <section class="form_complem">
+                    <form id="form_complementario">
+                        <aside>
+                            <label for="form_comple">Descripción Formación Complementaria :</label>
+                            <textarea name="form_comple" id="form_comple" rows="8" required></textarea>
+                        </aside>
+                        <aside class="btns_form_comple">
+                            <button type="button" onclick="btnsAction(4)">Cancelar</button>
+                            <button type="submit">Continuar</button>
+                        </aside>
+                    </form>
+                </section>
+
+                <section class="show_shedule"></section>
+                <section class="update_info"></section>
+
                 <main class="table_shedule">
-                    <section>
-                        <h2>Asignacion de Horarios</h2>
-                    </section>
+                    <h2>⬅ Seleccione a un Instructor</h2>
+                    <section class="resume"></section>
                     <table class="table">
                         <thead>
                             <th scope="col">Hora</th>
@@ -190,9 +197,12 @@
                             <th>Viernes</th>
                             <th>Sabado</th>
                         </thead>
-                        <tbody></tbody>
-                        <tfoot></tfoot>
+                        <tbody id="table_body"></tbody>
                     </table>
+                    <section class="btns_table">
+                        <button class="save_data" onclick="btnContinue()">Continuar</button>
+                        <button class="save_data" onclick="saveData()">Guardar</button>
+                    </section>
                 </main>                
             </section>
         </main>
