@@ -44,7 +44,7 @@ const saveData = () => {
 const showInstructors = (array) => {
     document.querySelector('.div_instructors').innerHTML = '<p>INSTRUCTORES</p>';
     if (array.length) {
-        array.forEach((e, pos) => {
+        array.forEach(e => {
             const { Identificacion, Nombre, Apellido, Estado_Horario } = e;
             document.querySelector('.div_instructors').innerHTML += `
                 <section class="info_instructor" onclick="selectInstructor(${Identificacion})">
