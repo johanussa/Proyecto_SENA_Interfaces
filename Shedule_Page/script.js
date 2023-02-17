@@ -7,15 +7,14 @@ const formulario = document.forms['formulario'],
     span = document.querySelectorAll('.show_hours span'),
     containBtns = document.querySelector('.btns_table'),
     nom_comp = document.getElementById('Nom_Comp'),
-    area_comp = document.getElementById('area_comp');
+    area_comp = document.getElementById('area_comp'),
+    tableH2 = document.querySelector('.table_shedule h2');
 
 let countAsignacion = 1, colorSelector = 0, cantHours = 0;
-let activeFicha = false, flagPlaneacion = false;
-let flagComplement = false, saveUpdate = false;
-let complement = false;
-let shedule = [], dataFicha = [], Competencias = [];
+let activeFicha = false, flagPlaneacion = false, saveUpdate = false; 
+let shedule = [], dataFicha = [], Competencias = [], complement = [], aux = [];
 let userSelected, date_start, date_end, Num_Ficha, Num_Ruta;
-let Trimestre, Programa, Codigo, Descripcion;
+let Trimestre, Programa, Codigo, Descripcion, textCompl;
 let Num_Aprendices, Ambiente, length, indexUser;
 
 const saveData = () => {
@@ -70,10 +69,15 @@ const eventClick = e => {
             if (cantHours - shedule.length === 0) {
                 return alert('Ya completaste el número de Horas para éste Instructor');
             } 
-            shedule.push({ pos, color : colorSelector }); 
+            if (Ambiente) {
+                shedule.push({ pos, color : colorSelector, Ambiente }); 
+                aux.push(pos);
+            } else { shedule.push({ pos, color : colorSelector }); }
             e.target.classList.toggle(`color_${colors[colorSelector]}`);   
         } else if (shedule[posNum].color === colorSelector) { 
             shedule.splice(posNum, 1); 
+            const posAux = aux.findIndex(e => e === pos);
+            aux.splice(posAux, 1);
             e.target.classList.toggle(`color_${colors[colorSelector]}`);
         }         
         updateHours();
@@ -102,7 +106,15 @@ const changeInput = e => {
         },
         Descripcion : () => Descripcion = e.target.value,
         Num_Aprendices : () => Num_Aprendices = e.target.value,
-        Ambiente : () => Ambiente = e.target.value,
+        Ambiente : () => {
+            let ambBefore = Ambiente;
+            Ambiente = e.target.value;
+            if (aux.length) {
+                shedule.forEach(e => {
+                    if (e.Ambiente === ambBefore) e.Ambiente = Ambiente
+                });
+            }
+        }
     }
     options[e.target.id]();
 }
@@ -126,11 +138,11 @@ formulario.addEventListener('submit', e => {
     document.querySelector('.table_shedule').style.display = 'grid';
     document.querySelector('.btns_actions').style.display = 'none';
 
-    document.querySelector('.table_shedule h2').innerHTML = `
+    tableH2.innerHTML = `
         Asignar Horario a la Ficha : ${e.target.Num_Ficha.value}`;
     document.querySelector('.resume').innerHTML += `
         <section>
-            <label for="">Ficha Número ${e.target.Num_Ficha.value} : </label>
+            <label>Ficha Número ${e.target.Num_Ficha.value} : </label>
             <span class="color_${colors[colorSelector]}"></span>
         </section>
     `;
@@ -139,18 +151,15 @@ formComplem.addEventListener('submit', e => {
     e.preventDefault();
     document.querySelector('.btns_form_comple').style.display = 'none';
     document.querySelector('.table_shedule').style.display = 'grid';
-
-    if (!flagComplement) {
-        document.querySelector('.resume').innerHTML += `
-            <section>
-                <label for="">Formación Complementaria :</label>
-                <span class="color_${colors[colorSelector]}"></span>
-            </section>
-        `;
-        flagComplement = true;
-    }
+    
+    document.querySelector('.resume').innerHTML += `
+        <section>
+            <label>Formación Complementaria ${complement.length + 1} : </label>
+            <span class="color_${colors[colorSelector]}"></span>
+        </section>
+    `;
 });
-formComplem.addEventListener('change', e => complement = e.target.value );
+formComplem.addEventListener('change', e => textCompl = e.target.value); 
 formulario.addEventListener('change', changeInput);
 
 function clearTable() {
@@ -178,40 +187,72 @@ function updateHours() {
     span[1].innerHTML = shedule.length;
     span[2].innerHTML = `${cantHours - shedule.length}`;
 }
-function btnContinue() {
-    const resume = document.querySelector('.resume');
-    area_comp.innerHTML = '';
-    formulario.reset(); 
-    formulario.style.display = 'none';
-
-    document.querySelector('.table_shedule h2').innerHTML = `Horario Asignado :`;  
-    resume.style.display = 'grid';
-    document.querySelector('.btn_add_ficha').style.display = 'flex';
-    document.querySelector('.form_complem').style.display = 'none';
-
-    if (!shedule.some(e => e.color === colorSelector)) {
-        resume.removeChild(resume.lastElementChild);
-        if (flagPlaneacion) flagPlaneacion = false;
-        if (flagComplement) flagComplement = false;
-        if (colorSelector === 'c') complement = false;
-        activeFicha = false;
-        colorSelector--;
-    }        
-    if (activeFicha && !dataFicha.some(e => e.Num_Ficha === Num_Ficha)) {
-        dataFicha.push({
-            Num_Ficha,
-            Num_Ruta,
-            Trimestre,
-            Programa,
-            Codigo,
-            Competencias,
-            Descripcion,
-            Num_Aprendices,
-            Ambiente
+function validateAmb() {
+    let flag = false;
+    if (aux.length) {
+        data.some(ins => {
+            if (ins.Horario.length) {
+                const shedIns = ins.Horario[ins.Horario.length -1];
+                if (shedIns.FechaInicio === date_start.value) {
+                    const find = aux.some(posCom => {
+                        if (shedIns.Horas.some(e => e.pos === posCom && e.Ambiente === Ambiente)) {
+                            alert(`El instructor ${ins.Nombre} ${ins.Apellido} Ya tiene asignado el Ambiente ${Ambiente}`
+                                + `\nPor favor elija otro Ambiente`);
+                            selectAmbiente.focus();
+                            flag = true;
+                            return true;
+                        }
+                    });
+                    if (find) return true;
+                }
+            } else { return false; }
         });
-    }    
-    table.removeEventListener('click', eventClick);
-    Competencias = [];
+        if (flag) return false;
+        else return true;
+    } else { return true; }
+}
+function btnContinue() {
+    if (validateAmb()) {
+        const resume = document.querySelector('.resume');
+        area_comp.innerHTML = '';
+        formulario.reset(); 
+        formulario.style.display = 'none';
+    
+        tableH2.innerHTML = `Horario Asignado :`;  
+        resume.style.display = 'grid';
+        document.querySelector('.btn_add_ficha').style.display = 'flex';
+        document.querySelector('.form_complem').style.display = 'none';
+    
+        if (!shedule.some(e => e.color === colorSelector)) {
+            resume.removeChild(resume.lastElementChild);
+            if (flagPlaneacion) flagPlaneacion = false;
+            complement = [];
+            aux = [];
+            textCompl = '';
+            activeFicha = false;
+            colorSelector--;
+        }        
+        if (activeFicha && !dataFicha.some(e => e.Num_Ficha === Num_Ficha)) {
+            dataFicha.push({
+                Num_Ficha,
+                Num_Ruta,
+                Trimestre,
+                Programa,
+                Codigo,
+                Competencias,
+                Descripcion,
+                Num_Aprendices,
+                Ambiente
+            });
+        }    
+        if (textCompl) { 
+            complement.push(textCompl);
+            textCompl = '';
+        }    
+        table.removeEventListener('click', eventClick);
+        Competencias = [];
+        Ambiente = '';
+    }
 }
 function btnFilter() {
     if (userSelected) countAsignacion = 3;
@@ -243,12 +284,11 @@ function selectInstructor(id) {
     clearTable();
     shedule = []; 
     dataFicha = [];
+    complement = [];
     Competencias = [];
     colorSelector = 0;
-    complement = false;
     activeFicha = false;
     flagPlaneacion = false;
-    flagComplement = false;
     saveUpdate = false;
     length = userSelected.Horario.length - 1;
 
@@ -279,17 +319,17 @@ function typeContrato(horas) {
     updateHours();
 }
 function btnsAction(btn) {  
+    if (colorSelector === 'p' || Number.isNaN(colorSelector)) { 
+        const valorNew = shedule.reduce((count, elem) => {
+            if (count < elem.color) count = elem.color;
+            return count;
+        }, 0);
+        colorSelector = valorNew;
+    }
     const options = {
         1 : () => {
             table.addEventListener('click', eventClick);
-            if (colorSelector === 'c' || colorSelector === 'p' || Number.isNaN(colorSelector)) { 
-                const valorNew = shedule.reduce((count, elem) => {
-                    if (count < elem.color) count = elem.color;
-                    return count;
-                }, 0);
-                colorSelector = valorNew;
-            }
-            colorSelector ++; 
+            colorSelector ++;
             activeFicha = true;
             document.querySelector('.type_contrato').style.display = 'none';
             document.querySelector('.btns_actions').style.display = 'flex';
@@ -298,8 +338,7 @@ function btnsAction(btn) {
         },
         2 : () => {
             table.addEventListener('click', eventClick);
-            colorSelector = 'p';
-            
+            colorSelector = 'p';            
             document.querySelector('.table_shedule').style.display = 'grid';
             containBtns.style.display = 'flex';
             document.querySelector('.resume').style.display = 'grid';
@@ -315,8 +354,8 @@ function btnsAction(btn) {
         },
         3 : () => {
             table.addEventListener('click', eventClick);
-            colorSelector = 'c';
             formComplem.reset();
+            colorSelector ++;
             document.querySelector('.resume').style.display = 'grid';
             containBtns.style.display = 'flex';
             document.querySelector('.form_complem').style.display = 'block';
@@ -334,7 +373,7 @@ function btnsAction(btn) {
     if (validateDate()) {
         document.querySelector('#formulario').style.display = 'none';
         document.querySelector('.btn_add_ficha').style.display = 'none';
-        document.querySelector('.table_shedule h2').innerHTML = `Asignación de Horario`;
+        tableH2.innerHTML = `Asignación de Horario`;
         options[btn]();
     } 
 }
@@ -368,6 +407,7 @@ function viewShedule() {
     const dataShedule = userSelected.Horario;    
     showShedule.style.display = 'grid';
     containBtns.style.display = 'none';
+    colorSelector = 0;
 
     document.querySelector('.btns_options').style.display = 'none';
     document.querySelector('.resume').innerHTML = '';
@@ -375,7 +415,7 @@ function viewShedule() {
     
     if (dataShedule.length) {
         const element = dataShedule[length];
-        document.querySelector('.table_shedule h2').innerHTML = `Horario Asignado : ${element.Horas.length} Horas`;
+        tableH2.innerHTML = `Horario Asignado : ${element.Horas.length} Horas`;
         document.querySelector('.table_shedule').style.display = 'grid';
         document.querySelector('.resume').style.display = 'grid';
         showShedule.innerHTML = '<h2>HORARIOS</h2>';
@@ -389,9 +429,9 @@ function viewShedule() {
             </section>
         `;
         if (element.Ficha.length) {
-            element.Ficha.forEach((e, pos) => {
+            element.Ficha.forEach(e => {
                 showShedule.innerHTML += `
-                    <form class="color_${colors[pos + 1]}">
+                    <form class="color_${colors[++colorSelector]}">
                         <section>
                             <label>Número de Ficha:</label>
                             <input type="text" placeholder="${e.Num_Ficha}" disabled>
@@ -422,7 +462,9 @@ function viewShedule() {
                         </section>    
                         <section class="sect_competencia">
                             <label>Competencias:</label>
-                            <textarea disabled>${e.Competencias.map(e => `-${e}`).join().replaceAll(',', '\n')}</textarea>
+                            <textarea disabled
+                                >${e.Competencias.map(e => `-${e}`).join().replaceAll(',', '\n')}
+                            </textarea>
                         </section>    
                         <section class="sect_descrip">
                             <label>Descripción:</label>
@@ -433,26 +475,28 @@ function viewShedule() {
                 document.querySelector('.resume').innerHTML += `
                     <section>
                         <label>Ficha Número ${e.Num_Ficha} : </label>
-                        <span class="color_${colors[pos + 1]}"></span>
+                        <span class="color_${colors[colorSelector]}"></span>
                     </section>
                 `; 
             });
         }
-        if (element.Complementaria) {
-            showShedule.innerHTML += `
-                <form class="form_update_descrip color_${colors['c']}">
+        if (element.Complementaria.length) {
+            element.Complementaria.forEach((e, pos) => {
+                showShedule.innerHTML += `
+                    <form class="form_update_descrip color_${colors[++colorSelector]}">
+                        <section>
+                            <label for="update_comple">Descripción Formación Complementaria :</label>
+                            <textarea disabled>${e}</textarea>
+                        </section>
+                    </form>
+                `;
+                document.querySelector('.resume').innerHTML += `
                     <section>
-                        <label for="update_comple">Descripción Formación Complementaria :</label>
-                        <textarea disabled>${element.Complementaria}</textarea>
+                        <label>Formación Complementaria ${pos + 1} : </label>
+                        <span class="color_${colors[colorSelector]}"></span>
                     </section>
-                </form>
-            `;
-            document.querySelector('.resume').innerHTML += `
-                <section>
-                    <label>Formación Complementaria :</label>
-                    <span class="color_${colors['c']}"></span>
-                </section>
-            `;
+                `;
+            });
         }
         let td = document.querySelectorAll('td');
         element.Horas.forEach(e => td[e.pos].classList.toggle(`color_${colors[e.color]}`) );
@@ -493,7 +537,7 @@ function updateShedule() {
 
     if (userSelected.Horario.length) {
         const user = JSON.parse(JSON.stringify(data[indexUser].Horario[length]));
-        document.querySelector('.table_shedule h2').innerHTML = `Horario Asignado : ${user.Horas.length} Horas`;
+        tableH2.innerHTML = `Horario Asignado : ${user.Horas.length} Horas`;
         document.querySelector('.resume').innerHTML = '';
         document.querySelector('.resume').style.display = 'grid';
         document.querySelector('.table_shedule').style.display = 'grid';
@@ -501,6 +545,7 @@ function updateShedule() {
         cantHours = user.Horas.length;
         shedule = user.Horas.map(e => e);
         container.innerHTML = '';
+        colorSelector = 0;
         updateHours();
 
         container.innerHTML += `
@@ -524,7 +569,7 @@ function updateShedule() {
         if (user.Ficha.length) {
             user.Ficha.forEach((e, pos) => {
                 container.innerHTML += `
-                    <form class="color_${colors[pos + 1]}">
+                    <form class="color_${colors[++colorSelector]}">
                         <section>
                             <label for="Num_Ficha">Número de Ficha:</label>
                             <input type="number" id="Num_Ficha" placeholder="${e.Num_Ficha}" 
@@ -598,29 +643,34 @@ function updateShedule() {
                 document.querySelector('.resume').innerHTML += `
                     <section>
                         <label>Ficha Número ${e.Num_Ficha} : </label>
-                        <span class="color_${colors[pos + 1]} btn_color" onclick="changeShedule(${pos + 1})"></span>
+                        <span 
+                            class="color_${colors[colorSelector]} btn_color" 
+                            onclick="changeShedule(${pos + 1})">
+                        </span>
                     </section>
                 `; 
             });
         }
-        if (user.Complementaria) {
-            container.innerHTML += `
-                <form class="form_update_descrip color_${colors['c']}">
+        if (user.Complementaria.length) {
+            user.Complementaria.forEach((e, pos) => {
+                container.innerHTML += `
+                    <form class="form_update_descrip color_${colors[++colorSelector]}">
+                        <section>
+                            <label for="update_comple">Descripción Formación Complementaria :</label>
+                            <textarea id="update_comple" onchange="updateData(event)">${e}</textarea>
+                        </section>
+                        <section class="update_btns">
+                            <button type="button" onclick="updateData(2, ${pos})">Guardar</button>
+                        </section>
+                    </form>
+                `;
+                document.querySelector('.resume').innerHTML += `
                     <section>
-                        <label for="update_comple">Descripción Formación Complementaria :</label>
-                        <textarea id="update_comple" onchange="updateData(event)">${user.Complementaria}</textarea>
+                        <label>Formación Complementaria ${pos + 1} : </label>
+                        <span class="color_${colors[colorSelector]} btn_color" onclick="changeShedule('c')"></span>
                     </section>
-                    <section class="update_btns">
-                        <button type="button" onclick="updateData(2, ${length})">Guardar</button>
-                    </section>
-                </form>
-            `;
-            document.querySelector('.resume').innerHTML += `
-                <section>
-                    <label>Formación Complementaria :</label>
-                    <span class="color_${colors['c']} btn_color" onclick="changeShedule('c')"></span>
-                </section>
-            `;
+                `;
+            });
         }
         let td = document.querySelectorAll('td');
         user.Horas.forEach(e => td[e.pos].classList.toggle(`color_${colors[e.color]}`) );
@@ -664,7 +714,7 @@ function updateData(e, pos = 0) {
         Competencias = []; Descripcion = ''; Num_Ficha = ''; Num_Ruta = '';
         Trimestre = ''; Programa = ''; Codigo = ''; Num_Aprendices = ''; Ambiente = '';
     } else if (e === 2) {
-        data[indexUser].Horario[pos].Complementaria = complement || elem.Complementaria;
+        data[indexUser].Horario[length].Complementaria[pos] = complement.length ? complement : elem.Complementaria;
         alert('Información Actualizada Correctamente!!'); 
         updateShedule();
     } else {
