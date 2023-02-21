@@ -40,53 +40,64 @@ const data = [
                         Ambiente: 203
                     }
                 ],
-                Complementaria: 'Formacion Complementaria',
+                Complementaria: ['Formacion Complementaria'],
                 Horas: [{ pos: 12, color: 1 }, { pos: 26, color: 'p' }, { pos: 16, color: 'c' }]
             },
             {
-                FechaInicio: '2023-04-03',
-                FechaFin: '2023-07-06', 
-                Ficha: [
+                "FechaInicio": "2023-02-01",
+                "FechaFin": "2023-02-28",
+                "Ficha": [
                     {
-                        Num_Ficha: 1234567,
-                        Num_Ruta: 'Grupo 5',
-                        Trimestre: '1 de 3',
-                        Programa: 'Sistemas',
-                        Codigo: '144320 V.1',
-                        Competencias: ['Competencias 2'],
-                        Descripcion: 'Descripcion 2',
-                        Num_Aprendices: 23,
-                        Ambiente: 209
-                    },
-                    {
-                        Num_Ficha: 2557679,
-                        Num_Ruta: 'Grupo 2',
-                        Trimestre: '3 de 3',
-                        Programa: 'Programacion de Software',
-                        Codigo: '144999 V.1',
-                        Competencias: ['Competencias Software'],
-                        Descripcion: 'Descripcion Software',
-                        Num_Aprendices: 14,
-                        Ambiente: 203
-                    },
-                    {
-                        Num_Ficha: 4569780,
-                        Num_Ruta: 'Grupo 1',
-                        Trimestre: '2 de 3',
-                        Programa: 'Analista de Laboratorios',
-                        Codigo: '144320 V.1',
-                        Competencias: [
-                            'Competencias Carpintería Metalica',
-                            'Administrar base de datos con los estándares y requisitos técnicos.',
-                            'Fomentar cultura emprendedora según habilidades y culturas personales.'
+                        "Num_Ficha": "2557679",
+                        "Num_Ruta": "Grupo 2",
+                        "Trimestre": "3 de 3",
+                        "Programa": "Programacion de Software",
+                        "Codigo": "233104 V.1",
+                        "Competencias": [
+                            "Administrar base de datos con los estándares y requisitos técnicos.",
+                            "Fomentar cultura emprendedora según habilidades y culturas personales."
                         ],
-                        Descripcion: 'Descripcion Carpintería Metalica',
-                        Num_Aprendices: 20,
-                        Ambiente: 207
+                        "Descripcion": "Agrego una descripción ",
+                        "Num_Aprendices": "21",
+                        "Ambiente": "203 Informatica"
+                    },
+                    {
+                        "Num_Ficha": "2551340",
+                        "Num_Ruta": "Grupo 1",
+                        "Trimestre": "1 de 3",
+                        "Programa": "Sistemas",
+                        "Codigo": "233104 V.1",
+                        "Competencias": [
+                            "Realizar mantenimiento preventivo y predictivo que prolongue el funcionamiento de los equipos de cómputo.",
+                            "Aplicar herramientas ofimáticas, redes sociales y colaborativas de acuerdo con el proyecto a desarrollar."
+                        ],
+                        "Descripcion": "Descripción para sistemas ",
+                        "Num_Aprendices": "17",
+                        "Ambiente": "203 Informatica"
                     }
                 ],
-                Complementaria: 'Esta es una prueba de complementaria',
-                Horas: [{ pos: 0, color: 2 }, { pos: 3, color: 'p' }, { pos: 7, color: 'c' }, { pos: 8, color: 1 }, { pos: 9, color: 3 }]
+                "Complementaria": [],
+                "Horas": [
+                    { "pos": 6, "color": 1, Ambiente: '203 Informatica' }, { "pos": 12, "color": 1, Ambiente: '203 Informatica' }, 
+                    { "pos": 18, "color": 1, Ambiente: '203 Informatica' }, { "pos": 24, "color": 1, Ambiente: '203 Informatica' },
+                    { "pos": 30, "color": 1, Ambiente: '203 Informatica' }, { "pos": 31, "color": 1, Ambiente: '203 Informatica' }, 
+                    { "pos": 25, "color": 1, Ambiente: '203 Informatica' }, { "pos": 19, "color": 1, Ambiente: '203 Informatica' },
+                    { "pos": 13, "color": 1, Ambiente: '203 Informatica' }, { "pos": 7, "color": 1, Ambiente: '203 Informatica' }, 
+                    { "pos": 8, "color": 1, Ambiente: '203 Informatica' }, { "pos": 14, "color": 1, Ambiente: '203 Informatica' },
+                    { "pos": 20, "color": 1, Ambiente: '203 Informatica' }, { "pos": 26, "color": 1, Ambiente: '203 Informatica' }, 
+                    { "pos": 32, "color": 1, Ambiente: '203 Informatica' }, { "pos": 27, "color": 1, Ambiente: '203 Informatica' },
+                    { "pos": 33, "color": 1, Ambiente: '203 Informatica' }, { "pos": 21, "color": 1, Ambiente: '203 Informatica' }, 
+                    { "pos": 15, "color": 1, Ambiente: '203 Informatica' }, { "pos": 9, "color": 1, Ambiente: '203 Informatica' },
+                    { "pos": 10, "color": 1, Ambiente: '203 Informatica' }, { "pos": 16, "color": 1, Ambiente: '203 Informatica' }, 
+                    { "pos": 22, "color": 1, Ambiente: '203 Informatica' }, { "pos": 28, "color": 1, Ambiente: '203 Informatica' },
+                    { "pos": 34, "color": 1, Ambiente: '203 Informatica' }, { "pos": 42, "color": 2, Ambiente: '113 Quimica'  }, 
+                    { "pos": 54, "color": 2, Ambiente: '113 Quimica' }, { "pos": 48, "color": 2, Ambiente: '113 Quimica' },
+                    { "pos": 60, "color": 2, Ambiente: '113 Quimica' }, { "pos": 66, "color": 2, Ambiente: '113 Quimica' }, 
+                    { "pos": 67, "color": 2, Ambiente: '113 Quimica' }, { "pos": 61, "color": 2, Ambiente: '113 Quimica' },
+                    { "pos": 55, "color": 2, Ambiente: '113 Quimica' }, { "pos": 49, "color": 2, Ambiente: '113 Quimica' }, 
+                    { "pos": 43, "color": 2, Ambiente: '113 Quimica' }, { "pos": 44, "color": "p" },
+                    { "pos": 50, "color": "p" }, { "pos": 56, "color": "p" }, { "pos": 62, "color": "p" }, { "pos": 68, "color": "p" }
+                ]
             }
         ]        
     },
@@ -94,8 +105,67 @@ const data = [
         Identificacion: 1234567890,
         Nombre: 'Jhon Jairo',
         Apellido: 'Villanueva Sanchez',
-        Estado_Horario: false,
-        Horario: []
+        Estado_Horario: true,
+        Horario: [
+            {
+                "FechaInicio": "2023-02-01",
+                "FechaFin": "2023-02-28",
+                "Ficha": [
+                    {
+                        "Num_Ficha": "2557679",
+                        "Num_Ruta": "Grupo 2",
+                        "Trimestre": "3 de 3",
+                        "Programa": "Programacion de Software",
+                        "Codigo": "233104 V.1",
+                        "Competencias": [
+                            "Administrar base de datos con los estándares y requisitos técnicos.",
+                            "Establecer requisitos de solución de software de acuerdo con estándares y procedimiento técnico.",
+                            "Utilizar herramientas informáticas de acuerdo con las necesidades de manejo de información."
+                        ],
+                        "Descripcion": "descripción para software",
+                        "Num_Aprendices": "17",
+                        "Ambiente": "200 Informatica"
+                    },
+                    {
+                        "Num_Ficha": "4567890",
+                        "Num_Ruta": "Grupo 1",
+                        "Trimestre": "1 de 3",
+                        "Programa": "Sistemas",
+                        "Codigo": "233104 V.1",
+                        "Competencias": [
+                            "Realizar mantenimiento preventivo y predictivo que prolongue el funcionamiento de los equipos de cómputo.",
+                            "Aplicar herramientas ofimáticas, redes sociales y colaborativas de acuerdo con el proyecto a desarrollar.",
+                            "Comprender textos en inglés en forma escrita y auditiva."
+                        ],
+                        "Descripcion": "Descripción para sistemas",
+                        "Num_Aprendices": "16",
+                        "Ambiente": "302 Sistemas"
+                    }
+                ],
+                "Complementaria": [
+                    "Se agrega una formación complementaria"
+                ],
+                "Horas": [
+                    { "pos": 6, "color": 1 }, { "pos": 12, "color": 1 }, { "pos": 18, "color": 1 }, { "pos": 24, "color": 1 },
+                    { "pos": 30, "color": 1 }, { "pos": 31, "color": 1 }, { "pos": 25, "color": 1 }, { "pos": 19, "color": 1 },
+                    { "pos": 13, "color": 1 }, { "pos": 7, "color": 1 }, { "pos": 8, "color": 2, "Ambiente": "203 Informatica" },
+                    { "pos": 14, "color": 2, "Ambiente": "203 Informatica" }, { "pos": 20, "color": 2, "Ambiente": "203 Informatica" },
+                    { "pos": 26, "color": 2, "Ambiente": "203 Informatica" }, { "pos": 32, "color": 2, "Ambiente": "203 Informatica" },
+                    { "pos": 27, "color": 2, "Ambiente": "203 Informatica" }, { "pos": 33, "color": 2, "Ambiente": "203 Informatica" },
+                    { "pos": 15, "color": 2, "Ambiente": "203 Informatica" }, { "pos": 21, "color": 2, "Ambiente": "203 Informatica" },
+                    { "pos": 9, "color": 2, "Ambiente": "203 Informatica" }, { "pos": 10, "color": 2, "Ambiente": "203 Informatica" },
+                    { "pos": 16, "color": 2, "Ambiente": "203 Informatica" }, { "pos": 22, "color": 2, "Ambiente": "203 Informatica" },
+                    { "pos": 28, "color": 2, "Ambiente": "203 Informatica" }, { "pos": 34, "color": 2, "Ambiente": "203 Informatica" },
+                    { "pos": 42, "color": 3, "Ambiente": "302 Sistemas" }, { "pos": 48, "color": 3, "Ambiente": "302 Sistemas" },
+                    { "pos": 54, "color": 3, "Ambiente": "302 Sistemas" }, { "pos": 66, "color": 3, "Ambiente": "302 Sistemas" },
+                    { "pos": 60, "color": 3, "Ambiente": "302 Sistemas" }, { "pos": 67, "color": 3, "Ambiente": "302 Sistemas" },
+                    { "pos": 61, "color": 3, "Ambiente": "302 Sistemas" }, { "pos": 55, "color": 3, "Ambiente": "302 Sistemas" },
+                    { "pos": 49, "color": 3, "Ambiente": "302 Sistemas" }, { "pos": 43, "color": 3, "Ambiente": "302 Sistemas" },
+                    { "pos": 44, "color": "p" }, { "pos": 50, "color": "p" }, { "pos": 56, "color": "p" }, { "pos": 68, "color": "p" },
+                    { "pos": 62, "color": "p"  }
+                ]
+            }
+        ]
     },
     {
         Identificacion: 1023456789,
@@ -139,10 +209,17 @@ const programas = [
     'Sistemas', 
     'Soldadura de Productos Metalicos en Platina'
 ];
-const aulas = ['201', '202', '203', '204', '205', '206', '207', '208', '209'];
+const aulas = [
+    'QMA', '102 Alturas 1', '105 Mecanizado', '106 Alumina', '107 Soldadura', '108 Manufactura Manual', 
+    '108A Manufactura Digital', '108B Diseño', '108C Laboratorio Compuestos', '111 Ensayos', '112 Matematicas', 
+    '113 Quimica', '114 Alturas 2', '118', '119 Metalografia', '139 Planos y Simbologia', '141 Planos y Simbologia', 
+    '143 Planos y Simbologia', '145 Ciencias Naturales', '147 Planos y Simbologia', '200 Informatica', 
+    '201 Audiovisuales', '202 Emprendimiento', '203 Informatica', '210 Investigacion', '211 SG-SST', '212 Matematicas', 
+    '213 Dibujo', '300 Talla', '300B Talla', '301 Simuladores', '302 Sistemas', '303 Esmeralda', '304'
+];
 const colors = {
-    1 : 'one', 2 : 'two', 3 : 'three', 4 : 'four', 5 : 'five',
-    p : 'preparacion', c : 'complement'
+    1 : 'one', 2 : 'two', 3 : 'three', 4 : 'four', 5 : 'five', 6 : 'six', 7 : 'seven',
+    8 : 'eight', 9 : 'nine', 10 : 'ten', 11 : 'eleven', 12 : 'twelve', 13 : 'thirteen', p : 'preparacion'
 }
 const competencias = [
     {
