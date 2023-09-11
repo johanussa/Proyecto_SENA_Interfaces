@@ -125,14 +125,15 @@
                             <label for="Trimestre">Trimestre:</label>
                             <select name="Trimestre" id="Trimestre" required>
                                 <option selected disabled value="">Seleccione . . .</option>
-                                <option value="1 de 3">1 de 3</option>
-                                <option value="2 de 3">2 de 3</option>
-                                <option value="3 de 3">3 de 3</option>
+                                <option value="1 de 3">1 de 4</option>
+                                <option value="2 de 3">2 de 4</option>
+                                <option value="3 de 3">3 de 4</option>
+                                <option value="4 de 4">4 de 4</option>
                             </select>
                         </section>
                         <section>
                             <label for="Programa">Programa de Formación:</label>
-                            <select name="Programa" id="Programa" aria-placeholder="" required>
+                            <select name="Programa" id="Programa" required>
                                 <option selected disabled value="">Seleccione . . .</option>
                             </select>
                         </section>
@@ -142,7 +143,8 @@
                         </section>
                         <section class="div_competencia">
                             <label for="Competencias">Competencias:</label>
-                            <textarea name="competencias" id="Competencias" rows="9"></textarea>
+                            <select id="Nom_Comp"></select>
+                            <textarea id="area_comp" disabled></textarea>
                         </section>
                         <section>
                             <label for="Descripcion">Descripción:</label>
@@ -207,6 +209,7 @@
             </section>
         </main>
     </section>
+    <script src="./scriptDB.js"></script>
     <script src="./script.js"></script>
 </body>
 </html>

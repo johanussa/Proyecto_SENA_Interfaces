@@ -11,8 +11,15 @@
     --color-three: #67d483;
     --color-four: #e3e654;
     --color-five: #8efff9;
+    --color-six: #d29bff;
+    --color-seven: #ff9bff;
+    --color-eight: #ff9bb9;
+    --color-nine: #8140b6;
+    --color-ten: #508ea7;
+    --color-eleven: #3faa68;
+    --color-twelve: #5a6ac7;
+    --color-thirteen: #b49459;
     --color-preparacion: #ffc89b;
-    --color-complement: #d29bff;
 }
 .container { 
     width: 100%; 
@@ -254,11 +261,16 @@ article.form #formulario select {
     border: 1px solid #00000050;
 }
 article.form #formulario textarea {
+    resize: none;
     width: 100%;
     border-radius: 6px;
     border: 1px solid #00000050;
     padding: 5px;
     font-size: 15px;
+}
+#formulario textarea#area_comp {
+    margin-top: 8px;
+    height: 138px;
 }
 article.form #formulario .div_competencia {
     grid-row: span 2;
@@ -320,11 +332,11 @@ main.table_shedule table tr { height: 30px; }
 main.table_shedule .resume {
     font-size: 1.1rem;
     font-weight: 600;
-    padding: 0px 10px 20px;
+    padding-left: 70px;
+    margin: 0 0 15px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
-    text-align: center;
     display: none;
 }
 main.table_shedule .resume span {
@@ -421,10 +433,14 @@ section.update_info form textarea:focus {
 }
 section.show_shedule form textarea,
 section.update_info form textarea {
-    height: 60px;
+    height: 150px;
     padding-top: 5px;
+    margin-top: 5px;
+    border: none;
+    resize: none;
 }
-form.form_update_descrip section textarea { height: 160px; }
+form.form_update_descrip section textarea { height: 200px; }
+section.sect_descrip #Descripcion { height: 173px; }
 section.update_dates { 
     line-height: 40px;
     font-weight: 600;
@@ -466,8 +482,15 @@ section.update_info h3 {
 .color_three { background-color: var(--color-three); }
 .color_four { background-color: var(--color-four); }
 .color_five { background-color: var(--color-five); }
+.color_six { background-color: var(--color-six); }
+.color_seven { background-color: var(--color-seven); }
+.color_eight { background-color: var(--color-eight); }
+.color_nine { background-color: var(--color-nine); }
+.color_ten { background-color: var(--color-ten); }
+.color_eleven { background-color: var(--color-eleven); }
+.color_twelve { background-color: var(--color-twelve); }
+.color_thirteen { background-color: var(--color-thirteen); }
 .color_preparacion { background-color: var(--color-preparacion); }
-.color_complement { background-color: var(--color-complement); }
 
 /* Media Queries */
 

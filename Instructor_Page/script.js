@@ -1,4 +1,4 @@
-const data = [
+﻿const data = [
     {
         Identificacion: 1013648615,
         Nombre: 'Johan Sebastian',
@@ -25,7 +25,7 @@ const data = [
                 Horas: [{ pos: 5, color: 1 }, { pos: 6, color: 'p' }]
             },
             {
-                FechaInicio: '2023-02-02',
+                FechaInicio: '2022-08-06',
                 FechaFin: '2023-02-09', 
                 Ficha: [
                     {
@@ -97,7 +97,8 @@ const showCards = document.querySelector('.show_info_cards'),
     date_end = document.getElementById('date_end'),
     resume_colors = document.querySelector('.resume_colors'),
     body_table = document.getElementById('body_table'),
-    cantHoras = document.querySelector('.cantHoras');
+    cantHoras = document.querySelector('.cantHoras'),
+    nameInstr = document.getElementById('name_instructor');
 
 let cantShedule;
 
@@ -123,6 +124,7 @@ const cleanTable = () => {
 }
 window.addEventListener('load', () => { 
     cantShedule = data[0].Horario.length - 1; 
+    nameInstr.innerHTML = `${data[0].Nombre} ${data[0].Apellido}`;
     viewShedule();
 });
 function viewShedule() {
